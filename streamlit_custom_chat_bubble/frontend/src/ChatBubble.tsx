@@ -1,4 +1,4 @@
-import { Component, ReactNode }  from "react";
+import { ReactNode }  from "react";
 import Typography from '@mui/material/Typography';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,13 +8,13 @@ import { StreamlitComponentBase, withStreamlitConnection } from "streamlit-compo
 
 interface BubbleState {
   message:string,
-  image:"", 
+  image:string, 
   leftPosition:Boolean, 
   key:string,
   style:{
     textColor:string, backgroundColor:string, bubblePaddingRight:string, bubblePaddingLeft:string, 
     bubblePaddingBottom:string, bubblePaddingTop:string,
-    fontWeight:string, bubbleBorderRadius:string, fontFamily:string
+    fontWeight:string, bubbleBorderRadius:string, fontFamily:string, imageHeight:number
   }
 }
 
@@ -27,7 +27,9 @@ class ChatBubble extends StreamlitComponentBase<BubbleState>{
     const { message, image, leftPosition, key, style } = this.props.args;
  
     const fontWeight=("fontWeight" in style? style["fontWeight"] : "525")
+    
     const fontFamily=("fontFamily" in style? style["fontFamily"] : "itim")
+    
     const BubbleStyle = {
       color: ("textColor" in style? style["textColor"] : "#534eb1"),
       backgroundColor: ("backgroundColor" in style? style["backgroundColor"] : "#f0efff"), // 
@@ -57,13 +59,31 @@ class ChatBubble extends StreamlitComponentBase<BubbleState>{
       height: "fit-content", 
       justifySelf:"end"
     };
-  
+
+    var src=process.env.PUBLIC_URL + "no_image.png";
+    
+    if(image!=null){
+      try {
+        let url = new URL(image);
+        src=image;
+      } catch (_) {
+        src='data:image/png;base64,'+image;
+      }
+    }
+    
+    var imageHeight=35;
+
+    if("imageHeight" in style){
+      imageHeight=style["imageHeight"]
+    }
+    
     if (leftPosition){
       return (
         <Container key={key} fluid style={leftContainerStyle}>
           <Row style={{backgroundColor:"transparent"}}>
             <Col xs={1} style={{backgroundColor:"transparent",width:"6%", paddingLeft:"5px", marginLeft: "30px",paddingTop: "2px"}}>
-                <img alt="icon" src={process.env.PUBLIC_URL + "robot_icon.png"} height={35} />
+                {/* <img alt="icon" src={src} height={35} /> */}
+                <img alt="icon" src={src} height={imageHeight} />
             </Col>
             <Col xs={10} style={BubbleStyle}>
               <Typography style={{whiteSpace:"pre-line",fontFamily: fontFamily, fontWeight: fontWeight, wordWrap: "break-word",  padding: "5px"}}>
@@ -87,7 +107,8 @@ class ChatBubble extends StreamlitComponentBase<BubbleState>{
             </Typography>
           </Col>
           <Col xs={1}>
-              <img alt="icon" src={process.env.PUBLIC_URL+("person_icon.png")} height={43} />
+              {/* <img alt="icon" src={src} height={43} /> */}
+              <img alt="icon" src={src} height={imageHeight} />
           </Col>
         </Row>
       </Container>

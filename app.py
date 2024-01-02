@@ -49,7 +49,7 @@ def set_bg_hack(main_bg):
          unsafe_allow_html=True
      )
     
-set_bg_hack("streamlit_custom_chat_bubble/frontend/src/images/pastel3.jpg") 
+set_bg_hack("images\pastel3.jpg") 
 
 
 def set_page_container_style(
@@ -79,6 +79,18 @@ def set_page_container_style(
         unsafe_allow_html=True,
     )
 
+# Read the image as bytes
+with open("images/robot_icon.png", "rb") as image_file:
+    image_bytes = image_file.read()
+
+# Encode the image as Base64
+encoded_image0 = base64.b64encode(image_bytes).decode("utf-8")
+with open("images/person_icon.png", "rb") as image_file:
+    image_bytes = image_file.read()
+
+encoded_image1 = base64.b64encode(image_bytes).decode("utf-8")
+
+
 def refresh(key:str):
     del st.session_state[key]
     st.rerun()
@@ -90,16 +102,16 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
     
-if len(st.session_state.messages) ==0:
-    st.session_state.messages.append({"image":"","message":"Hello! How may I help you?","key":"0", "leftPosition":True})
-    st.session_state.messages.append({"image":"","message":"Tell me a riddle!","key":"1", "leftPosition":False})
-    st.session_state.messages.append({"image":"","message":"Sometimes I fly as fast as the speed of light, sometimes I crawl as slow as a snail. Unknown until I am meausured, but you'll certainly miss me when I'm gone. What am I?","key":"2", "leftPosition":True})
-    st.session_state.messages.append({"image":"","message":"A bird??","key":"3", "leftPosition":False})
-    st.session_state.messages.append({"image":"","message":"Try again","key":"4", "leftPosition":True})
-    st.session_state.messages.append({"image":"","message":"A plane?","key":"5", "leftPosition":False})
-    st.session_state.messages.append({"image":"","message":"Try again","key":"6", "leftPosition":True})
-    st.session_state.messages.append({"image":"","message":"Time!","key":"7", "leftPosition":False})
-    st.session_state.messages.append({"image":"","message":"Correct!","key":"8", "leftPosition":True})
+if len(st.session_state.messages) == 0:
+    st.session_state.messages.append({"image":encoded_image0,"message":"Hello! How may I help you?","key":"0", "leftPosition":True})
+    st.session_state.messages.append({"image":encoded_image1,"message":"Tell me a riddle!","key":"1", "leftPosition":False})
+    st.session_state.messages.append({"image":encoded_image0,"message":"Sometimes I fly as fast as the speed of light, sometimes I crawl as slow as a snail. Unknown until I am meausured, but you'll certainly miss me when I'm gone. What am I?","key":"2", "leftPosition":True})
+    st.session_state.messages.append({"image":encoded_image1,"message":"A bird??","key":"3", "leftPosition":False})
+    st.session_state.messages.append({"image":encoded_image0,"message":"Try again","key":"4", "leftPosition":True})
+    st.session_state.messages.append({"image":encoded_image1,"message":"A plane?","key":"5", "leftPosition":False})
+    st.session_state.messages.append({"image":encoded_image0,"message":"Try again","key":"6", "leftPosition":True})
+    st.session_state.messages.append({"image":encoded_image1,"message":"Time!","key":"7", "leftPosition":False})
+    st.session_state.messages.append({"image":encoded_image0,"message":"Correct!","key":"8", "leftPosition":True})
  
 
 col1, col2 = st.columns([2,13]) 
@@ -111,7 +123,7 @@ with col1:
 
     if st.button(label="Nice!", key="nice"):
         key = generate()
-        st.session_state.messages.append({"image":"","message":"Nice!","key":key.get_key(),"leftPosition":not (st.session_state.messages[-1]["leftPosition"])})
+        st.session_state.messages.append({"message":"Nice!","key":key.get_key(),"leftPosition":not (st.session_state.messages[-1]["leftPosition"])})
         refresh('nice')
         
 
@@ -121,5 +133,9 @@ with col2:
         style={}
         if not message["leftPosition"]:
             style={"backgroundColor":"rgb(216, 229, 255)"}
-        ChatBubble(message=message["message"], leftPosition=message["leftPosition"], image=message["image"], style=style, key=message["key"])
+        img=None
+        if "image" in message:
+            img=message["image"]
+        
+        ChatBubble(message=message["message"], leftPosition=message["leftPosition"], image=img, style=style, key=message["key"])
     

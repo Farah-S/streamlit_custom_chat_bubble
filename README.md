@@ -31,7 +31,8 @@ Args:
             paddingTop:"7px",
             fontWeight:"525", 
             borderRadius:"2rem", 
-            fontFamily:"itim"
+            fontFamily:"itim",
+            imageHeight:35
             
         }.
 
