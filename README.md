@@ -5,6 +5,7 @@
 Streamlit custom chat messages with ability to style them. The parameters are as follow:
 
 Args:
+
     message (string, optional): 
         Messages that will be displayed.
     
