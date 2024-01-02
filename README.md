@@ -1,6 +1,6 @@
 # streamlit_custom_chat
 
-![bubbles_example](https://github.com/Farah-S/streamlit_custom_chat_bubble/blob/main/streamlit_custom_chat/frontend/public/bubbles_example.png)
+![bubbles_example](https://github.com/Farah-S/streamlit_custom_chat_bubble/blob/main/streamlit_custom_chat_bubble/frontend/public/bubble_example.png)
 
 Streamlit custom chat messages with ability to style them. The parameters are as follow:
 
