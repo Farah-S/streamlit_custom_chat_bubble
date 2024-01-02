@@ -1,4 +1,4 @@
-# streamlit_custom_chat
+# streamlit_custom_chat_bubble
 
 ![bubbles_example](https://github.com/Farah-S/streamlit_custom_chat_bubble/blob/main/streamlit_custom_chat_bubble/frontend/public/bubble_example.png)
 
